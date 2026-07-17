@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE = '/api'  // Vite dev proxy → http://localhost:8000
+const BASE = import.meta.env.VITE_API_URL || '/api'  // Fallback to dev proxy if not set
 
 export const api = axios.create({
   baseURL: BASE,

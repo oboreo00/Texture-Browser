@@ -113,12 +113,16 @@ cd ~/texture-browser/backend
 # Upload your backend code (from your local machine):
 # scp -i ~/Downloads/texture-browser-key.pem -r ./backend/* ec2-user@YOUR_IP:~/texture-browser/backend/
 
+pip3 install --user virtualenv
+python3 -m venv .venv
+source .venv/bin/activate
 pip3 install -r requirements.txt
-cp .env.example .env
-nano .env   # Fill in DATABASE_URL and S3_BUCKET_NAME
 
-# Run FastAPI
-uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+cp .env.example .env
+nano .env   # Fill in DATABASE_URL (RDS with ?sslmode=require) and S3_BUCKET_NAME
+
+# Run FastAPI in production (without --reload)
+uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
 ### Nginx reverse proxy (optional for Phase 1)
