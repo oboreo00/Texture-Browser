@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+
+/* ── Design tokens ──────────────────────────────────────────────────────────── */
+:root {
+  --bg-base:        #07090e;
+  --bg-surface:     #0c0f18;
+  --bg-elevated:    #131929;
+  --bg-overlay:     #1a2235;
+
+  --border-subtle:  rgba(255,255,255,0.05);
+  --border-default: rgba(255,255,255,0.09);
+  --border-strong:  rgba(255,255,255,0.15);
+
+  --accent:         #f5824a;
+  --accent-light:   #ffaa72;
+  --accent-dim:     #c4622e;
+  --accent-glow:    rgba(245,130,74,0.18);
+  --accent-glow-lg: rgba(245,130,74,0.08);
+
+  --success:        #34d399;
+  --warning:        #fbbf24;
+  --error:          #f87171;
+
+  --text-primary:   #eef2f7;
+  --text-secondary: #8b98b0;
+  --text-muted:     #4a5568;
+  --text-dimmed:    #2d3748;
+
+  --radius-sm:      5px;
+  --radius-md:      10px;
+  --radius-lg:      16px;
+  --radius-xl:      22px;
+
+  --shadow-sm:   0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md:   0 4px 16px rgba(0,0,0,0.5);
+  --shadow-lg:   0 12px 40px rgba(0,0,0,0.6);
+  --shadow-glow: 0 0 40px var(--accent-glow-lg);
+}
+
+/* ── Reset ──────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+
+  /* Subtle radial warmth from top */
+  background-image:
+    radial-gradient(ellipse 70% 40% at 50% -5%,
+      rgba(245,130,74,0.07) 0%,
+      transparent 70%),
+    radial-gradient(ellipse 40% 30% at 90% 110%,
+      rgba(30,50,100,0.15) 0%,
+      transparent 60%);
+}
+
+#root { display: flex; flex-direction: column; min-height: 100vh; }
+
+/* ── Scrollbar ──────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg-overlay); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-dim); }
+
+/* ── Typography ─────────────────────────────────────────────────────────────── */
+.font-mono { font-family: 'JetBrains Mono', monospace; }
+
+/* ── Glass surface ──────────────────────────────────────────────────────────── */
+.glass {
+  background: linear-gradient(145deg,
+    rgba(255,255,255,0.035) 0%,
+    rgba(255,255,255,0.01) 100%);
+  border: 1px solid var(--border-subtle);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* ── Upload zone ────────────────────────────────────────────────────────────── */
+@keyframes border-march {
+  to { stroke-dashoffset: -20; }
+}
+
+@keyframes zone-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow), inset 0 0 0 0 var(--accent-glow); }
+  50%       { box-shadow: 0 0 20px 2px var(--accent-glow), inset 0 0 30px 0 rgba(245,130,74,0.04); }
+}
+
+.upload-zone-active {
+  animation: zone-pulse 1.8s ease-in-out infinite;
+  border-color: var(--accent) !important;
+  background: rgba(245,130,74,0.04) !important;
+}
+
+/* ── Icon float ─────────────────────────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-4px); }
+}
+.icon-float { animation: float 3s ease-in-out infinite; }
+
+/* ── Fade in up ─────────────────────────────────────────────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fade-up 0.35s cubic-bezier(0.22,1,0.36,1) forwards; }
+
+/* ── Spin ───────────────────────────────────────────────────────────────────── */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner {
+  width: 16px; height: 16px;
+  border: 1.5px solid var(--border-default);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.65s linear infinite;
+  flex-shrink: 0;
+}
+
+/* ── Shimmer progress ───────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  from { background-position: -400px 0; }
+  to   { background-position: 400px 0; }
+}
+.progress-shimmer {
+  background: linear-gradient(90deg,
+    var(--accent-dim) 0%,
+    var(--accent) 40%,
+    var(--accent-light) 50%,
+    var(--accent) 60%,
+    var(--accent-dim) 100%);
+  background-size: 400px 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+/* ── Glow dot ───────────────────────────────────────────────────────────────── */
+@keyframes glow-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(52,211,153,0.6); }
+  50%       { opacity: 0.7; box-shadow: 0 0 0 4px rgba(52,211,153,0); }
+}
+.status-dot { animation: glow-pulse 2.5s ease-in-out infinite; }
+
+/* ── Card hover ─────────────────────────────────────────────────────────────── */
+.asset-card {
+  transition: transform 0.2s cubic-bezier(0.22,1,0.36,1),
+              box-shadow 0.2s ease,
+              border-color 0.2s ease;
+}
+.asset-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-default) !important;
+}
