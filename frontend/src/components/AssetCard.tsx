@@ -40,7 +40,7 @@ export function AssetCard({ asset: initialAsset, onDelete }: AssetCardProps) {
     if (status === 'ready' && !thumbUrl) {
       getThumbUrl(asset.id)
         .then((r) => setThumbUrl(r.thumb_url))
-        .catch(() => {})
+        .catch(() => { })
     }
   }, [status, asset.id, thumbUrl])
 
@@ -81,7 +81,7 @@ export function AssetCard({ asset: initialAsset, onDelete }: AssetCardProps) {
         {/* Processing overlay */}
         {status === 'processing' && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-2"
-               style={{ background: 'rgba(10,12,16,0.75)' }}>
+            style={{ background: 'rgba(10,12,16,0.75)' }}>
             <div className="spinner" />
             <span className="text-xs" style={{ color: 'var(--text-muted)' }}>Processing…</span>
           </div>
@@ -90,11 +90,11 @@ export function AssetCard({ asset: initialAsset, onDelete }: AssetCardProps) {
         {/* Error overlay */}
         {status === 'error' && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-1"
-               style={{ background: 'rgba(239,68,68,0.08)' }}>
+            style={{ background: 'rgba(239,68,68,0.08)' }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--error)" strokeWidth="1.5">
-              <circle cx="12" cy="12" r="10"/>
-              <line x1="12" y1="8" x2="12" y2="12"/>
-              <line x1="12" y1="16" x2="12.01" y2="16"/>
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
             </svg>
             <span className="text-xs" style={{ color: 'var(--error)' }}>Failed</span>
           </div>
@@ -127,14 +127,15 @@ export function AssetCard({ asset: initialAsset, onDelete }: AssetCardProps) {
                     console.error('Download failed:', err)
                   }
                 }}
-                className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors duration-150 hover:bg-neutral-800"
-                style={{ 
-                  background: 'rgba(255,255,255,0.08)', 
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  cursor: 'pointer'
+                className="w-7 h-7 rounded-lg flex items-center justify-center transition-all duration-150 hover:scale-105"
+                style={{
+                  background: 'rgba(15, 18, 28, 0.4)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  cursor: 'pointer',
+                  color: 'var(--text-primary)'
                 }}
               >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                   <polyline points="7 10 12 15 17 10" />
                   <line x1="12" y1="15" x2="12" y2="3" />
@@ -147,18 +148,19 @@ export function AssetCard({ asset: initialAsset, onDelete }: AssetCardProps) {
               id={`delete-asset-${asset.id}`}
               aria-label={`Delete ${asset.filename}`}
               onClick={() => onDelete(asset.id)}
-              className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors duration-150"
-              style={{ 
-                background: 'rgba(239,68,68,0.15)', 
-                border: '1px solid rgba(239,68,68,0.3)',
-                cursor: 'pointer'
+              className="w-7 h-7 rounded-lg flex items-center justify-center transition-all duration-150 hover:scale-105"
+              style={{
+                background: 'rgba(239, 68, 68, 0.35)',
+                border: '1px solid rgba(239, 68, 68, 0.3)',
+                cursor: 'pointer',
+                color: '#ffffff'
               }}
             >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--error)" strokeWidth="2">
-                <polyline points="3 6 5 6 21 6"/>
-                <path d="M19 6l-1 14H6L5 6"/>
-                <path d="M10 11v6M14 11v6"/>
-                <path d="M9 6V4h6v2"/>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <polyline points="3 6 5 6 21 6" />
+                <path d="M19 6l-1 14H6L5 6" />
+                <path d="M10 11v6M14 11v6" />
+                <path d="M9 6V4h6v2" />
               </svg>
             </button>
           </div>
@@ -168,7 +170,7 @@ export function AssetCard({ asset: initialAsset, onDelete }: AssetCardProps) {
       {/* Metadata */}
       <div className="p-3 flex flex-col gap-1.5">
         <p className="text-sm font-medium truncate" style={{ color: 'var(--text-primary)' }}
-           title={asset.filename}>
+          title={asset.filename}>
           {asset.filename}
         </p>
         <div className="flex items-center justify-between">
