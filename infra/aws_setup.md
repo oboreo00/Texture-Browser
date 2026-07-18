@@ -153,7 +153,11 @@ sudo systemctl enable nginx
 2. Trusted entity: **EC2**
 3. Attach policy: **AmazonS3FullAccess** (scope this down in Phase 2)
 4. Name: `texture-browser-ec2-role`
-5. Attach to your EC2 instance: EC2 console → Instance → Actions → Security → Modify IAM role
+5. Attach to your EC2 instance:
+   * Go to the **EC2 console** → **Instances** → check your instance.
+   * Click **Actions** (top right) → **Security** → **Modify IAM role**.
+   * In the dropdown, select the newly created `texture-browser-ec2-role`.
+   * Click the blue **Update IAM role** (or **Save**) button to apply changes.
 
 ### 4b. Lambda Execution Role (allows Lambda to read/write S3 and connect to RDS)
 1. **IAM** → **Roles** → **Create role**
