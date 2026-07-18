@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 
-const ALLOWED_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.tga']
+const ALLOWED_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.tga', '.webp']
 
 interface UploadZoneProps {
   onFilesSelected: (files: File[]) => void
@@ -19,7 +19,7 @@ export function UploadZone({ onFilesSelected, uploading }: UploadZoneProps) {
       return ALLOWED_EXTENSIONS.includes(ext)
     })
     if (valid.length < arr.length) {
-      setError('Some files skipped — only PNG, JPG, TGA are supported.')
+      setError('Some files skipped — only PNG, JPG, TGA, WEBP are supported.')
       setTimeout(() => setError(null), 4000)
     } else {
       setError(null)
@@ -81,7 +81,7 @@ export function UploadZone({ onFilesSelected, uploading }: UploadZoneProps) {
         type="file"
         id="file-input"
         multiple
-        accept=".png,.jpg,.jpeg,.tga"
+        accept=".png,.jpg,.jpeg,.tga,.webp"
         onChange={handleChange}
         style={{ display: 'none' }}
         aria-hidden="true"
