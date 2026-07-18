@@ -35,6 +35,18 @@ export function AssetGrid({ pendingFiles, onUploadComplete }: AssetGridProps) {
 
   useEffect(() => { fetchAssets() }, [fetchAssets])
 
+  // Smart Polling: Only poll for updates if there are assets in "processing" status
+  useEffect(() => {
+    const hasProcessing = assets.some((a) => a.status === 'processing')
+    if (!hasProcessing) return
+
+    const id = setInterval(() => {
+      fetchAssets()
+    }, 3000)
+
+    return () => clearInterval(id)
+  }, [assets, fetchAssets])
+
   // Handle incoming files from UploadZone
   useEffect(() => {
     if (!pendingFiles.length) return

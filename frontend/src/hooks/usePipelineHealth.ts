@@ -4,12 +4,12 @@ import { api } from '../api/client'
 type PipelineStatus = 'checking' | 'online' | 'offline'
 
 /**
- * Polls GET /health every 15 seconds.
+ * Polls GET /health every 60 seconds.
  * "online" means FastAPI is reachable → the pipeline can accept uploads.
  * Lambda and S3 have no browser-pingable endpoints, but if the API is up,
  * the pipeline is ready.
  */
-export function usePipelineHealth(intervalMs = 30_000) {
+export function usePipelineHealth(intervalMs = 60_000) {
   const [status, setStatus] = useState<PipelineStatus>('checking')
 
   useEffect(() => {
