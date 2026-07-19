@@ -217,8 +217,14 @@ export function AssetGrid({ pendingFiles, onUploadComplete }: AssetGridProps) {
           </p>
         </div>
       ) : (
-        <div className="grid gap-4"
-             style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
+        <div style={{
+          maxHeight: '600px',
+          overflowY: 'auto',
+          paddingRight: '6px',
+          display: 'grid',
+          gap: '16px',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))'
+        }}>
           {filtered.map((asset) => (
             <AssetCard key={asset.id} asset={asset} onDelete={handleDelete} />
           ))}
