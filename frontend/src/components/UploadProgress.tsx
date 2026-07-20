@@ -13,7 +13,7 @@ const STATUS_COLOR: Record<string, string> = {
 
 const STATUS_LABEL: Record<string, string> = {
   uploading:  'Uploading to S3',
-  processing: 'Lambda processing…',
+  processing: 'Optimizing texture…',
   ready:      'Ready',
   error:      'Failed',
 }

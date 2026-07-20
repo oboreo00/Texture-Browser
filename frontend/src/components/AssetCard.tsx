@@ -83,7 +83,7 @@ export function AssetCard({ asset: initialAsset, onDelete }: AssetCardProps) {
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-2"
             style={{ background: 'rgba(10,12,16,0.75)' }}>
             <div className="spinner" />
-            <span className="text-xs" style={{ color: 'var(--text-muted)' }}>Processing…</span>
+            <span className="text-xs" style={{ color: 'var(--text-muted)' }}>Optimizing…</span>
           </div>
         )}
 
