@@ -38,22 +38,36 @@ export default function App() {
         {/* Logo */}
         <div className="flex items-center gap-3">
           <div style={{
-            width: 30, height: 30,
+            width: 32, height: 32,
             background: 'linear-gradient(135deg, var(--accent) 0%, var(--accent-dim) 100%)',
             borderRadius: 8,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 2px 12px var(--accent-glow)',
+            boxShadow: '0 2px 14px var(--accent-glow)',
           }}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round">
-              <rect x="3" y="3" width="18" height="18" rx="2.5" />
-              <circle cx="8.5" cy="8.5" r="1.5" fill="white" stroke="none" />
-              <polyline points="21 15 16 10 5 21" />
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              {/* Shield outline representing the Vault */}
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(255,255,255,0.12)" />
+              {/* Safe/Vault lock wheel with spokes pointing outwards (hollow center) */}
+              <circle cx="12" cy="11" r="3.5" />
+              <line x1="12" y1="7.5" x2="12" y2="5" />
+              <line x1="12" y1="14.5" x2="12" y2="17" />
+              <line x1="8.5" y1="11" x2="6" y2="11" />
+              <line x1="15.5" y1="11" x2="18" y2="11" />
             </svg>
           </div>
           <span style={{
-            fontSize: 10, fontWeight: 500, color: 'var(--accent)',
+            fontSize: 14,
+            fontWeight: 700,
+            letterSpacing: '-0.02em',
+            color: 'var(--text-primary)',
+            fontFamily: 'system-ui, sans-serif'
+          }}>
+            Texture Bank
+          </span>
+          <span style={{
+            fontSize: 9, fontWeight: 600, color: 'var(--accent)',
             background: 'var(--accent-glow)', border: '1px solid rgba(245,130,74,0.25)',
-            borderRadius: 4, padding: '2px 7px', letterSpacing: '0.04em',
+            borderRadius: 4, padding: '1.5px 5px', letterSpacing: '0.04em',
           }}>
             PHASE 1
           </span>

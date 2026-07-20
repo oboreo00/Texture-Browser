@@ -130,7 +130,7 @@ export function UploadZone({ onFilesSelected, uploading }: UploadZoneProps) {
         <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>
           or{' '}
           <span style={{ color: 'var(--accent)', fontWeight: 500 }}>browse files</span>
-          {' '}· PNG, JPG, TGA · up to 50 MB
+          {' '}· PNG, JPG, TGA, WEBP · up to 50 MB
         </p>
       </div>
 
