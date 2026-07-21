@@ -47,7 +47,7 @@ export function AssetCard({ asset: initialAsset, onDelete }: AssetCardProps) {
   return (
     <div
       id={`asset-card-${asset.id}`}
-      className="fade-in glass rounded-xl overflow-hidden group relative"
+      className="fade-in glass rounded-sm overflow-hidden group relative"
       style={{
         border: '1px solid var(--border-subtle)',
         transition: 'transform 0.2s, box-shadow 0.2s',
@@ -104,7 +104,12 @@ export function AssetCard({ asset: initialAsset, onDelete }: AssetCardProps) {
         <div className="absolute top-2 left-2">
           <span
             className="text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded font-mono"
-            style={{ background: `${extColor}22`, color: extColor, border: `1px solid ${extColor}44` }}
+            style={{
+              background: 'rgba(7, 9, 14, 0.75)',
+              color: extColor,
+              border: `1px solid ${extColor}55`,
+              boxShadow: '0 2px 6px rgba(0, 0, 0, 0.5)',
+            }}
           >
             {ext}
           </span>
