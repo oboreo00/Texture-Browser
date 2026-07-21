@@ -25,9 +25,8 @@ export default function App() {
 
       {/* ── Nav ───────────────────────────────────────────────────────────────── */}
       <header
-        className="sticky top-0 z-20 flex items-center justify-between"
+        className="sticky top-0 z-20 flex items-center justify-between app-header"
         style={{
-          padding: '0 32px',
           height: '56px',
           background: 'rgba(7,9,14,0.8)',
           backdropFilter: 'blur(20px)',
@@ -36,15 +35,14 @@ export default function App() {
         }}
       >
         {/* Logo */}
-        <div className="flex items-center gap-3">
-          <div style={{
-            width: 32, height: 32,
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="w-7 h-7 sm:w-8 sm:h-8" style={{
             background: 'linear-gradient(135deg, var(--accent) 0%, var(--accent-dim) 100%)',
             borderRadius: 8,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             boxShadow: '0 2px 14px var(--accent-glow)',
           }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-[14px] h-[14px] sm:w-[18px] sm:h-[18px]">
               {/* Shield outline representing the Vault */}
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(255,255,255,0.12)" />
               {/* Safe/Vault lock wheel with spokes pointing outwards (hollow center) */}
@@ -55,8 +53,7 @@ export default function App() {
               <line x1="15.5" y1="11" x2="18" y2="11" />
             </svg>
           </div>
-          <span style={{
-            fontSize: 14,
+          <span className="text-xs sm:text-[14px]" style={{
             fontWeight: 700,
             letterSpacing: '-0.02em',
             color: 'var(--text-primary)',
@@ -64,27 +61,26 @@ export default function App() {
           }}>
             Texture Bank
           </span>
-          <span style={{
-            fontSize: 9, fontWeight: 600, color: 'var(--accent)',
+          <span className="text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.5" style={{
+            fontWeight: 600, color: 'var(--accent)',
             background: 'var(--accent-glow)', border: '1px solid rgba(245,130,74,0.25)',
-            borderRadius: 4, padding: '1.5px 5px', letterSpacing: '0.04em',
+            borderRadius: 4, letterSpacing: '0.04em',
           }}>
             PHASE 1
           </span>
         </div>
 
         {/* Right */}
-        <div className="flex items-center gap-5">
-          <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>FastAPI · Lambda · RDS</span>
-          <div className="flex items-center gap-2">
-            <div className={health === 'online' ? 'status-dot' : ''} style={{
-              width: 7, height: 7, borderRadius: '50%',
+        <div className="flex items-center gap-3 sm:gap-5 pr-2 sm:pr-4">
+          <span className="text-[10px] sm:text-[12px]" style={{ color: 'var(--text-muted)' }}>FastAPI · Lambda · RDS</span>
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className={`w-1.5 h-1.5 sm:w-[7px] sm:h-[7px] rounded-full ${health === 'online' ? 'status-dot' : ''}`} style={{
               background: health === 'online' ? 'var(--success)'
                 : health === 'offline' ? 'var(--error)'
                   : 'var(--text-muted)',
               transition: 'background 0.4s',
             }} />
-            <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
+            <span className="text-[10px] sm:text-[12px]" style={{ color: 'var(--text-secondary)' }}>
               {health === 'online' ? 'API online'
                 : health === 'offline' ? 'API offline'
                   : 'Checking…'}
@@ -114,13 +110,7 @@ export default function App() {
             }}>
               Workspace
             </p>
-            <h1 style={{
-              fontSize: 32, fontWeight: 700, lineHeight: 1.15,
-              letterSpacing: '-0.03em', color: 'var(--text-primary)',
-            }}>
-              Texture Drop
-            </h1>
-            <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.6, maxWidth: 480 }}>
+            <p style={{ fontSize: 16, color: 'var(--text-primary)', lineHeight: 1.6, maxWidth: 480 }}>
               Import, preview, and organize your textures in real-time.
             </p>
           </div>

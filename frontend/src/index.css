@@ -241,3 +241,12 @@ body {
   transform: translateY(-1px);
 }
 
+.app-header {
+  padding: 0 16px;
+}
+@media (min-width: 640px) {
+  .app-header {
+    padding: 0 32px;
+  }
+}
+

@@ -65,8 +65,8 @@ export function AssetCard({ asset: initialAsset, onDelete }: AssetCardProps) {
     >
       {/* Thumbnail area */}
       <div
-        className="relative flex items-center justify-center"
-        style={{ height: '160px', background: 'var(--bg-elevated)' }}
+        className="relative flex items-center justify-center h-[100px] sm:h-40"
+        style={{ background: 'var(--bg-elevated)' }}
       >
         {/* Ready — show thumbnail */}
         {status === 'ready' && thumbUrl && (
