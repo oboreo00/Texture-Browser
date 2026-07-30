@@ -1,3 +1,4 @@
+import typing_extensions
 import uuid
 import mimetypes
 from fastapi import APIRouter, Depends, HTTPException, Query
@@ -19,7 +20,6 @@ router = APIRouter(prefix="/assets", tags=["assets"])
 # Allowed texture formats for Phase 1
 ALLOWED_EXTENSIONS = {".png", ".jpg", ".jpeg", ".tga", ".webp"}
 ALLOWED_MIME_TYPES = {"image/png", "image/jpeg", "image/tga", "image/x-tga", "image/webp"}
-
 
 @router.post("/upload-url", response_model=UploadUrlResponse, status_code=201)
 def request_upload_url(

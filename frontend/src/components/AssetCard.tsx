@@ -186,6 +186,24 @@ export function AssetCard({ asset: initialAsset, onDelete }: AssetCardProps) {
             {formatBytes(asset.file_size)}
           </span>
         </div>
+        {/* AI Tags */}
+        {asset.tags && asset.tags.length > 0 && (
+          <div className="flex flex-wrap gap-1 mt-0.5">
+            {asset.tags.map((tag) => (
+              <span
+                key={tag}
+                className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full"
+                style={{
+                  background: 'hsla(22, 47%, 62%, 0.08)',
+                  color: 'hsl(22, 47%, 62%)',
+                  letterSpacing: '0.02em',
+                }}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )
