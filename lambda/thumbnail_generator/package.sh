@@ -21,7 +21,7 @@ mkdir -p package
 # Use Docker to install dependencies compiled for Amazon Linux
 if command -v docker &> /dev/null; then
   echo "Docker detected. Building dependencies inside Amazon Linux container..."
-  docker run --rm \
+  docker run --rm --platform linux/arm64 \
     -v "$DIR":/var/task \
     public.ecr.aws/sam/build-python3.12:latest-arm64 \
     pip install -r requirements.txt -t /var/task/package
