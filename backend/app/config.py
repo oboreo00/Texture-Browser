@@ -21,6 +21,9 @@ class Settings(BaseSettings):
     # Gemini API
     gemini_api_key: str = ""
 
+    # Shared with the thumbnail Lambda. Required for /internal routes.
+    internal_api_token: str = ""
+
 
     @field_validator("cors_origins", mode="before")
     @classmethod

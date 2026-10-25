@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import get_settings
 from app.database import Base, engine
-from app.routes import assets
+from app.routes import assets, internal
 
 settings = get_settings()
 
@@ -26,6 +26,7 @@ app.add_middleware(
 )
 
 app.include_router(assets.router)
+app.include_router(internal.router)
 
 
 @app.get("/health", tags=["system"])

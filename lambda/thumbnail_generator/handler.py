@@ -5,7 +5,6 @@ import json
 import os
 import urllib.request
 import urllib.error
-import psycopg2
 from PIL import Image
 
 # ── Config from Lambda environment variables ──────────────────────────────────
@@ -13,8 +12,8 @@ BUCKET_NAME   = os.environ["S3_BUCKET_NAME"]
 THUMBS_PREFIX = os.environ.get("S3_THUMBS_PREFIX", "textures/thumbs")
 THUMB_SIZE    = (512, 512)   # max width × height — preserves aspect ratio
 THUMB_QUALITY = 85           # WebP quality (85 = great balance of size/clarity)
-DATABASE_URL  = os.environ["DATABASE_URL"]
-# Format: postgresql://user:password@host:5432/dbname
+API_BASE_URL  = os.environ["API_BASE_URL"].rstrip("/")
+INTERNAL_API_TOKEN = os.environ["INTERNAL_API_TOKEN"]
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 # 2.5 Flash returns 404 for projects that have not used it before.
 # 3.5 Flash-Lite is the cheaper model Google still serves to new projects.
@@ -176,27 +175,29 @@ def _update_asset_record(asset_id: str, status: str,
                           width: int = None,
                           height: int = None,
                           tags: list = None):
-    """
-    Write directly to RDS PostgreSQL via psycopg2.
-    Lambda creates a new connection per invocation.
-    (Connection pooling like PgBouncer is a Phase 2 concern.)
-    """
-    conn = psycopg2.connect(DATABASE_URL)
+    """Tell the API to update the asset. The database is only on the EC2 host."""
+    payload = {"status": status}
+    if thumb_key is not None:
+        payload["thumb_key"] = thumb_key
+    if width is not None:
+        payload["width"] = width
+    if height is not None:
+        payload["height"] = height
+    if tags:
+        payload["tags"] = tags
+
+    req = urllib.request.Request(
+        f"{API_BASE_URL}/internal/assets/{asset_id}/processed",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={
+            "Content-Type": "application/json",
+            "X-Internal-Token": INTERNAL_API_TOKEN,
+        },
+        method="POST",
+    )
     try:
-        with conn.cursor() as cur:
-            cur.execute(
-                """
-                UPDATE assets
-                SET    status      = %s,
-                       thumb_key   = COALESCE(%s, thumb_key),
-                       width       = COALESCE(%s, width),
-                       height      = COALESCE(%s, height),
-                       tags        = COALESCE(%s, tags),
-                       updated_at  = NOW()
-                WHERE  id::text    = %s
-                """,
-                (status, thumb_key, width, height, tags, asset_id),
-            )
-        conn.commit()
-    finally:
-        conn.close()
+        with urllib.request.urlopen(req, timeout=10) as response:
+            response.read()
+    except urllib.error.HTTPError as e:
+        detail = e.read().decode("utf-8", errors="replace")[:300]
+        raise RuntimeError(f"API update failed: HTTP {e.code} {detail}") from e
