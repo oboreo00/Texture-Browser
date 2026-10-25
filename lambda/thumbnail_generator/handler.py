@@ -16,17 +16,20 @@ THUMB_QUALITY = 85           # WebP quality (85 = great balance of size/clarity)
 DATABASE_URL  = os.environ["DATABASE_URL"]
 # Format: postgresql://user:password@host:5432/dbname
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+# 2.5 Flash returns 404 for projects that have not used it before.
+# 3.5 Flash-Lite is the cheaper model Google still serves to new projects.
+GEMINI_MODEL = "gemini-3.5-flash-lite"
 
 
 def _get_ai_tags(image_bytes: bytes) -> list:
     """
-    Calls Gemini 2.5 Flash API with the WebP image bytes and requests 3-4 descriptive tags.
+    Calls Gemini with the WebP thumbnail and requests 3-4 descriptive tags.
     """
     if not GEMINI_API_KEY:
         print("[WARNING] GEMINI_API_KEY not found in environment. Skipping AI tagging.")
         return []
 
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent?key={GEMINI_API_KEY}"
     
     # Base64 encode WebP thumbnail
     b64_image = base64.b64encode(image_bytes).decode("utf-8")
@@ -60,12 +63,19 @@ def _get_ai_tags(image_bytes: bytes) -> list:
     )
     
     try:
-        with urllib.request.urlopen(req, timeout=10) as response:
+        with urllib.request.urlopen(req, timeout=20) as response:
             res_data = json.loads(response.read().decode("utf-8"))
-            text_response = res_data["candidates"][0]["content"]["parts"][0]["text"]
+            parts = res_data["candidates"][0]["content"]["parts"]
+            text_response = "".join(
+                part.get("text", "") for part in parts if not part.get("thought")
+            )
             tags = json.loads(text_response.strip())
             if isinstance(tags, list):
                 return [str(t).strip().lower() for t in tags if t][:4]
+            print(f"[WARNING] Gemini response was not a tag list: {text_response[:300]}")
+    except urllib.error.HTTPError as e:
+        detail = e.read().decode("utf-8", errors="replace")[:500]
+        print(f"[WARNING] Failed to fetch AI tags from Gemini: HTTP {e.code} {detail}")
     except Exception as e:
         print(f"[WARNING] Failed to fetch AI tags from Gemini: {e}")
     
@@ -81,7 +91,7 @@ def lambda_handler(event, context):
       2. Download the raw texture from S3
       3. Generate a 512×512 WebP thumbnail with Pillow
       4. Write the thumbnail back to S3 at textures/thumbs/{uuid}/thumb.webp
-      5. Call Gemini 2.5 Flash to generate 3-4 tags
+      5. Call Gemini to generate 3-4 tags
       6. Update the RDS asset record: thumb_key, tags, status='ready'
     
     Returns nothing meaningful — Lambda result is ignored.
@@ -133,7 +143,7 @@ def lambda_handler(event, context):
             )
 
             # ── 5. Generate AI Tags ───────────────────────────────────────────
-            print(f"[INFO] Generating AI tags for asset {asset_id} using Gemini...")
+            print(f"[INFO] Generating AI tags for asset {asset_id} using {GEMINI_MODEL}...")
             tags = _get_ai_tags(thumb_bytes)
             print(f"[INFO] Generated tags: {tags}")
 
